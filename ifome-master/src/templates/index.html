@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-yellow-99 to-yellow-99-light py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+
+      <!-- Título estilo iFood, menor -->
+      <h2 class="text-2xl md:text-3xl font-extrabold text-black leading-snug">
+        Seu delivery favorito em poucos cliques
+      </h2>
+
+      <!-- Subtítulo estilo iFood -->
+      <p class="text-base md:text-lg text-gray-500 mt-2">
+        Delícia rápida, onde você estiver.
+      </p>
+
+      <!-- Location Input -->
+      <div class="max-w-md mx-auto mt-6">
+        <div class="flex">
+          <div class="relative w-full">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-500 text-lg">📍</span>
+            <input 
+              type="text" 
+              placeholder="Digite seu endereço de entrega" 
+              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition"
+            >
+          </div>
+          <button 
+            class="bg-purplebrand text-white px-6 py-3 rounded-r-lg font-bold shadow-md hover:bg-purplebranddark transition">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CSS para animações -->
+<style>
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-down {
+    animation: fadeInDown 1s ease-out forwards;
+  }
+
+  /* Cursor piscando */
+  #slogan::after {
+    content: "|";
+    margin-left: 4px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+</style>
+
+<!-- Script de digitação -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const text = "Seu delivery favorito em poucos cliques";
+    const sloganElement = document.getElementById("slogan");
+    let index = 0;
+    let isDeleting = false;
+    let speed = 100; // velocidade da digitação
+
+    function typeEffect() {
+      if (!isDeleting && index <= text.length) {
+        sloganElement.textContent = text.substring(0, index);
+        index++;
+      } else if (isDeleting && index >= 0) {
+        sloganElement.textContent = text.substring(0, index);
+        index--;
+      }
+
+      // Velocidade variável para ficar mais natural
+      let typeSpeed = isDeleting ? 60 : 120;
+
+      // Quando terminar de digitar, dá pausa antes de apagar
+      if (index === text.length) {
+        isDeleting = true;
+        typeSpeed = 1500; // espera 1.5s
+      } 
+      // Quando apagar tudo, recomeça
+      else if (index === 0 && isDeleting) {
+        isDeleting = false;
+        typeSpeed = 500; // espera 0.5s antes de recomeçar
+      }
+
+      setTimeout(typeEffect, typeSpeed);
+    }
+
+    typeEffect();
+  });
+</script>
+
+
+<!-- Categories -->
+<section class="py-12 bg-purple-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h3 class="text-2xl font-bold text-gray-900 mb-8">Categorias</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+
+      <!-- Pizza -->
+      <div class="text-center group cursor-pointer">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-red-200 transition shadow-sm">
+          <span class="text-2xl">🍕</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700">Pizza</p>
+      </div>
+
+      <!-- Hambúrguer -->
+      <div class="text-center group cursor-pointer">
+        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-orange-200 transition shadow-sm">
+          <span class="text-2xl">🍔</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700">Hambúrguer</p>
+      </div>
+
+      <!-- Japonesa -->
+      <div class="text-center group cursor-pointer">
+        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-pink-200 transition shadow-sm">
+          <span class="text-2xl">🍣</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700">Japonesa</p>
+      </div>
+
+      <!-- Saudável -->
+      <div class="text-center group cursor-pointer">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-green-200 transition shadow-sm">
+          <span class="text-2xl">🥗</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700">Saudável</p>
+      </div>
+
+      <!-- Doces -->
+      <div class="text-center group cursor-pointer">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-purple-200 transition shadow-sm">
+          <span class="text-2xl">🍰</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700">Doces</p>
+      </div>
+
+      <!-- Bebidas -->
+      <div class="text-center group cursor-pointer">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-blue-200 transition shadow-sm">
+          <span class="text-2xl">☕</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700">Bebidas</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Restaurants -->
+<section class="py-12 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h3 class="text-2xl font-bold text-gray-900 mb-8">Restaurantes próximos</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card de Restaurante (exemplo) -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer">
+        <div class="h-48 bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center">
+          <span class="text-white text-6xl">🍕</span>
+        </div>
+        <div class="p-4">
+          <h4 class="text-lg font-semibold text-gray-900 mb-1">Pizzaria Bella</h4>
+          <p class="text-gray-600 text-sm mb-2">Pizza • Italiana</p>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-yellow-99 text-sm">★★★★☆</span>
+              <span class="text-gray-600 text-sm ml-1">(4.2)</span>
+            </div>
+            <div class="text-sm text-gray-600">
+              <span class="bg-yellow-99 text-black px-2 py-1 rounded text-xs font-medium">25-35 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- (repita os outros cards aqui normalmente...) -->
+
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

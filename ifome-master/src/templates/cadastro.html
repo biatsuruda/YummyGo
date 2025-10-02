@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário - Ifome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yellow-99': '#FFFF00',
+                        'yellow-99-light': '#FFF44F',
+                        'yellow-99-dark': '#FFD700'
+                    }
+                }
+            }
+        }
+    </script>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <div class="text-center mb-6">
+            <img class="h-12 w-auto mx-auto" src="{{ url_for('static', filename='logo_ifome.png') }}" alt="ifome Logo" />
+            <h2 class="text-2xl font-bold text-gray-900">Criar sua conta</h2>
+        </div>
+
+        <!-- Bloco para exibir mensagens de erro -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                <li style="color: red;">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('usuarios.cadastro') }}">
+            <div class="mb-4">
+                <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome Completo:</label>
+                <input type="text" id="nome" name="nome" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-99 focus:border-transparent" 
+                       placeholder="Seu nome completo">
+            </div>
+            
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                <input type="email" id="email" name="email" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-99 focus:border-transparent" 
+                       placeholder="seu.email@example.com">
+            </div>
+
+            <div class="mb-4">
+                <label for="telefone" class="block text-gray-700 text-sm font-bold mb-2">Telefone:</label>
+                <input type="tel" id="telefone" name="telefone" required pattern="\(\d{2}\) \d{4,5}-\d{4}"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-99 focus:border-transparent" 
+                       placeholder="(99) 99999-9999">
+            </div>
+            
+            <div class="mb-4">
+          <label for="senha" class="block text-gray-700 text-sm font-bold mb-2">Senha:</label>
+          <input type="password" id="senha" name="senha" minlength="8" required
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-99 focus:border-transparent" 
+              placeholder="********">
+          <ul id="senha-requisitos" class="text-xs text-gray-500 mt-1 space-y-1">
+            <li id="req-8" class="">• Pelo menos 8 caracteres</li>
+            <li id="req-maiuscula" class="">• Pelo menos uma letra maiúscula</li>
+            <li id="req-numero" class="">• Pelo menos um número</li>
+            <li id="req-especial" class="">• Pelo menos um caractere especial</li>
+          </ul>
+            </div>
+            
+            <div class="mb-6">
+                <label for="confirmar_senha" class="block text-gray-700 text-sm font-bold mb-2">Confirmar Senha:</label>
+                <input type="password" id="confirmar_senha" name="confirmar_senha" minlength="8" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-99 focus:border-transparent" 
+                       placeholder="********">
+            </div>
+            
+            <div class="flex flex-col space-y-4">
+                <button type="submit" 
+                        class="bg-yellow-99 hover:bg-yellow-99-dark text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200">
+                    Cadastrar
+                </button>
+                
+                <div class="text-center">
+                    <span class="text-gray-600">Já tem uma conta? </span>
+                    <a class="text-yellow-99 hover:text-yellow-99-dark font-bold" href="{{ url_for('usuarios.login') }}">
+                        Faça login
+                    </a>
+                </div>
+                
+                <div class="text-center">
+                    <a class="text-gray-600 hover:text-yellow-99" href="/">
+                        ← Voltar para o início
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+        <script>
+        const senhaInput = document.getElementById('senha');
+        const req8 = document.getElementById('req-8');
+        const reqMaiuscula = document.getElementById('req-maiuscula');
+        const reqNumero = document.getElementById('req-numero');
+        const reqEspecial = document.getElementById('req-especial');
+
+        senhaInput.addEventListener('input', function() {
+            const val = senhaInput.value;
+            // 8 caracteres
+            if(val.length >= 8) {
+                req8.classList.add('text-green-600');
+                req8.classList.remove('text-gray-500');
+            } else {
+                req8.classList.remove('text-green-600');
+                req8.classList.add('text-gray-500');
+            }
+            // Maiúscula
+            if(/[A-Z]/.test(val)) {
+                reqMaiuscula.classList.add('text-green-600');
+                reqMaiuscula.classList.remove('text-gray-500');
+            } else {
+                reqMaiuscula.classList.remove('text-green-600');
+                reqMaiuscula.classList.add('text-gray-500');
+            }
+            // Número
+            if(/[0-9]/.test(val)) {
+                reqNumero.classList.add('text-green-600');
+                reqNumero.classList.remove('text-gray-500');
+            } else {
+                reqNumero.classList.remove('text-green-600');
+                reqNumero.classList.add('text-gray-500');
+            }
+            // Especial
+            if(/[^A-Za-z0-9]/.test(val)) {
+                reqEspecial.classList.add('text-green-600');
+                reqEspecial.classList.remove('text-gray-500');
+            } else {
+                reqEspecial.classList.remove('text-green-600');
+                reqEspecial.classList.add('text-gray-500');
+            }
+        });
+        </script>
+</html>
