@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mx-auto px-4 py-12">
+  <h1 class="text-4xl font-extrabold text-graydark mb-8 text-center">
+    Seu Carrinho
+  </h1>
+
+  <div class="bg-white p-8 rounded-lg shadow-xl max-w-2xl mx-auto">
+    <p class="text-center text-gray-700 text-lg">
+      Seu carrinho está vazio no momento.
+    </p>
+    <p class="text-center text-gray-700 text-lg mt-4">
+      Em breve, seus itens aparecerão aqui!
+    </p>
+
+    <div class="mt-8 text-center">
+      <a href="{{ url_for('home.index') }}" class="btn-primary">
+        Continuar Comprando
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

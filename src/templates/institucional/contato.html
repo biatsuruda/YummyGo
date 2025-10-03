@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mx-auto px-4 py-12 min-h-[calc(100vh-80px)]">
+  <h1 class="text-4xl font-bold text-graydark mb-6 text-center">
+    Entre em Contato
+  </h1>
+  <div
+    class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md text-gray-800 leading-relaxed"
+  >
+    <p class="mb-4">
+      Tem alguma dúvida, sugestão ou precisa de ajuda? Nossa equipe está pronta
+      para te atender.
+    </p>
+    <h2 class="text-2xl font-semibold text-graydark mb-2">
+      Canais de Atendimento:
+    </h2>
+    <ul class="list-disc list-inside mb-4">
+      <li>
+        Email:
+        <a
+          href="mailto:contato@yummygo.com"
+          class="text-purplebrand hover:underline"
+          >contato@yummygo.com</a
+        >
+      </li>
+      <li>Telefone: (XX) XXXX-XXXX (horário comercial)</li>
+      <li>
+        Central de Ajuda: Acesse nossa
+        <a
+          href="{{ url_for('institucional.central_de_ajuda') }}"
+          class="text-purplebrand hover:underline"
+          >Central de Ajuda</a
+        >
+        para FAQs e guias.
+      </li>
+    </ul>
+    <p>
+      Você também pode nos seguir nas redes sociais para ficar por dentro das
+      novidades\!
+    </p>
+  </div>
+</div>
+{% endblock content %}

@@ -1,45 +1,68 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-yellow-99 to-yellow-99-light py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center">
+<section
+  class="bg-white py-24 md:py-32 flex items-center justify-center min-h-[60vh] lg:min-h-[70vh] relative overflow-hidden"
+>
+  <div
+    class="absolute inset-0 bg-purplebrandextra_light opacity-40 transform -skew-y-3 scale-110"
+  ></div>
+  <div
+    class="absolute inset-0 bg-contain bg-no-repeat bg-right-bottom opacity-10"
+    style="background-image: url('{{ url_for('static', filename='pattern-food.svg') }}'); background-size: 50% auto;"
+  ></div>
 
-      <!-- Título estilo iFood, menor -->
-      <h2 class="text-2xl md:text-3xl font-extrabold text-black leading-snug">
-        Seu delivery favorito em poucos cliques
-      </h2>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+    <h1
+      id="slogan"
+      class="text-4xl md:text-6xl font-extrabold text-graydark leading-tight mb-6 animate-fade-in-down"
+    ></h1>
 
-      <!-- Subtítulo estilo iFood -->
-      <p class="text-base md:text-lg text-gray-500 mt-2">
-        Delícia rápida, onde você estiver.
-      </p>
+    <p
+      class="text-lg md:text-xl text-gray-700 mb-10 animate-fade-in-down delay-200 max-w-2xl mx-auto"
+    >
+      Conectando você aos sabores mais incríveis da sua cidade, com rapidez e
+      facilidade.
+    </p>
 
-      <!-- Location Input -->
-      <div class="max-w-md mx-auto mt-6">
-        <div class="flex">
-          <div class="relative w-full">
-            <span class="absolute inset-y-0 left-3 flex items-center text-gray-500 text-lg">📍</span>
-            <input 
-              type="text" 
-              placeholder="Digite seu endereço de entrega" 
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition"
-            >
-          </div>
-          <button 
-            class="bg-purplebrand text-white px-6 py-3 rounded-r-lg font-bold shadow-md hover:bg-purplebranddark transition">
-            Buscar
-          </button>
+    <div class="max-w-xl mx-auto animate-fade-in-down delay-400">
+      <div
+        class="flex shadow-xl rounded-full overflow-hidden border border-gray-200"
+      >
+        <div class="relative flex-1">
+          <span
+            class="absolute inset-y-0 left-4 flex items-center text-gray-500 text-xl"
+            >📍</span
+          >
+          <input
+            type="text"
+            placeholder="Digite seu endereço de entrega"
+            class="w-full pl-12 pr-4 py-4 md:py-5 text-lg border-none focus:outline-none focus:ring-0"
+          />
         </div>
+        <button
+          class="bg-purplebrand text-white px-8 md:px-10 py-4 md:py-5 font-bold hover:bg-purplebranddark transition-colors duration-300 text-lg flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          Buscar
+        </button>
       </div>
     </div>
   </div>
 </section>
 
-
-
-<!-- CSS para animações -->
 <style>
   @keyframes fadeInDown {
     from {
@@ -51,151 +74,302 @@
       transform: translateY(0);
     }
   }
-
   .animate-fade-in-down {
     animation: fadeInDown 1s ease-out forwards;
   }
-
-  /* Cursor piscando */
   #slogan::after {
-    content: "|";
+    content: '|';
     margin-left: 4px;
     animation: blink 1s infinite;
   }
-
   @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
   }
 </style>
-
-<!-- Script de digitação -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const text = "Seu delivery favorito em poucos cliques";
-    const sloganElement = document.getElementById("slogan");
-    let index = 0;
-    let isDeleting = false;
-    let speed = 100; // velocidade da digitação
+  document.addEventListener('DOMContentLoaded', function () {
+    const text = 'YummyGo: Seu delivery favorito em poucos cliques' // Slogan atualizado
+    const sloganElement = document.getElementById('slogan')
+    let index = 0
+    let isDeleting = false
+    let speed = 100
 
     function typeEffect() {
       if (!isDeleting && index <= text.length) {
-        sloganElement.textContent = text.substring(0, index);
-        index++;
+        sloganElement.textContent = text.substring(0, index)
+        index++
       } else if (isDeleting && index >= 0) {
-        sloganElement.textContent = text.substring(0, index);
-        index--;
+        sloganElement.textContent = text.substring(0, index)
+        index--
       }
 
-      // Velocidade variável para ficar mais natural
-      let typeSpeed = isDeleting ? 60 : 120;
+      let typeSpeed = isDeleting ? 60 : 120
 
-      // Quando terminar de digitar, dá pausa antes de apagar
-      if (index === text.length) {
-        isDeleting = true;
-        typeSpeed = 1500; // espera 1.5s
-      } 
-      // Quando apagar tudo, recomeça
-      else if (index === 0 && isDeleting) {
-        isDeleting = false;
-        typeSpeed = 500; // espera 0.5s antes de recomeçar
+      if (index === text.length && !isDeleting) {
+        isDeleting = true
+        typeSpeed = 1500
+      } else if (index === 0 && isDeleting) {
+        isDeleting = false
+        typeSpeed = 500
       }
 
-      setTimeout(typeEffect, typeSpeed);
+      setTimeout(typeEffect, typeSpeed)
     }
-
-    typeEffect();
-  });
+    typeEffect()
+  })
 </script>
 
-
-<!-- Categories -->
-<section class="py-12 bg-purple-50">
+<section class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h3 class="text-2xl font-bold text-gray-900 mb-8">Categorias</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+    <h2
+      class="text-3xl md:text-4xl font-extrabold text-graydark mb-10 text-center"
+    >
+      Navegue pelas <span class="text-purplebrand">Categorias</span>
+    </h2>
 
-      <!-- Pizza -->
-      <div class="text-center group cursor-pointer">
-        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-red-200 transition shadow-sm">
-          <span class="text-2xl">🍕</span>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍕</span>
         </div>
-        <p class="text-sm font-medium text-gray-700">Pizza</p>
-      </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Pizza
+        </p>
+      </a>
 
-      <!-- Hambúrguer -->
-      <div class="text-center group cursor-pointer">
-        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-orange-200 transition shadow-sm">
-          <span class="text-2xl">🍔</span>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍔</span>
         </div>
-        <p class="text-sm font-medium text-gray-700">Hambúrguer</p>
-      </div>
-
-      <!-- Japonesa -->
-      <div class="text-center group cursor-pointer">
-        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-pink-200 transition shadow-sm">
-          <span class="text-2xl">🍣</span>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Hambúrguer
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍣</span>
         </div>
-        <p class="text-sm font-medium text-gray-700">Japonesa</p>
-      </div>
-
-      <!-- Saudável -->
-      <div class="text-center group cursor-pointer">
-        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-green-200 transition shadow-sm">
-          <span class="text-2xl">🥗</span>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Japonesa
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🥗</span>
         </div>
-        <p class="text-sm font-medium text-gray-700">Saudável</p>
-      </div>
-
-      <!-- Doces -->
-      <div class="text-center group cursor-pointer">
-        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-purple-200 transition shadow-sm">
-          <span class="text-2xl">🍰</span>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Saudável
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍰</span>
         </div>
-        <p class="text-sm font-medium text-gray-700">Doces</p>
-      </div>
-
-      <!-- Bebidas -->
-      <div class="text-center group cursor-pointer">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 group-hover:bg-blue-200 transition shadow-sm">
-          <span class="text-2xl">☕</span>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Doces
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">☕</span>
         </div>
-        <p class="text-sm font-medium text-gray-700">Bebidas</p>
-      </div>
-
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Bebidas
+        </p>
+      </a>
     </div>
   </div>
 </section>
 
-
-<!-- Restaurants -->
-<section class="py-12 bg-white">
+<section class="py-16 bg-purplebrandextra_light">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h3 class="text-2xl font-bold text-gray-900 mb-8">Restaurantes próximos</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <h2
+      class="text-3xl md:text-4xl font-extrabold text-graydark mb-10 text-center"
+    >
+      Descubra <span class="text-purplebrand">Restaurantes</span> Próximos
+    </h2>
 
-      <!-- Card de Restaurante (exemplo) -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer">
-        <div class="h-48 bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center">
-          <span class="text-white text-6xl">🍕</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a
+        href="#"
+        class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+      >
+        <div class="relative h-56 w-full">
+          <img
+            src="https://via.placeholder.com/600x400/6B21A8/FFFFFF?text=Pizzaria+Bella"
+            alt="Pizzaria Bella Imagem"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-graydark via-transparent to-transparent opacity-60"
+          ></div>
+          <span
+            class="absolute bottom-4 left-4 bg-purplebrand text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+            >Pizza</span
+          >
         </div>
-        <div class="p-4">
-          <h4 class="text-lg font-semibold text-gray-900 mb-1">Pizzaria Bella</h4>
-          <p class="text-gray-600 text-sm mb-2">Pizza • Italiana</p>
-          <div class="flex items-center justify-between">
+        <div class="p-6">
+          <h3
+            class="text-2xl font-bold text-graydark mb-2 group-hover:text-purplebrand transition-colors duration-300"
+          >
+            Pizzaria Bella
+          </h3>
+          <p class="text-gray-600 text-base mb-3">
+            Sabor autêntico italiano, direto na sua casa.
+          </p>
+          <div
+            class="flex items-center justify-between pt-2 border-t border-gray-100"
+          >
             <div class="flex items-center">
-              <span class="text-yellow-99 text-sm">★★★★☆</span>
-              <span class="text-gray-600 text-sm ml-1">(4.2)</span>
+              <span class="text-purplebrandlight text-lg">★★★★☆</span>
+              <span class="text-gray-600 text-sm ml-2">(4.2)</span>
             </div>
-            <div class="text-sm text-gray-600">
-              <span class="bg-yellow-99 text-black px-2 py-1 rounded text-xs font-medium">25-35 min</span>
+            <div class="text-base text-gray-600">
+              <span
+                class="bg-graydark text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+                >25-35 min</span
+              >
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <!-- (repita os outros cards aqui normalmente...) -->
+      <a
+        href="#"
+        class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+      >
+        <div class="relative h-56 w-full">
+          <img
+            src="https://via.placeholder.com/600x400/6B21A8/FFFFFF?text=Burger+House"
+            alt="Burger House Imagem"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-graydark via-transparent to-transparent opacity-60"
+          ></div>
+          <span
+            class="absolute bottom-4 left-4 bg-purplebrand text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+            >Hambúrguer</span
+          >
+        </div>
+        <div class="p-6">
+          <h3
+            class="text-2xl font-bold text-graydark mb-2 group-hover:text-purplebrand transition-colors duration-300"
+          >
+            Burger House
+          </h3>
+          <p class="text-gray-600 text-base mb-3">
+            Os melhores hambúrgueres artesanais da cidade.
+          </p>
+          <div
+            class="flex items-center justify-between pt-2 border-t border-gray-100"
+          >
+            <div class="flex items-center">
+              <span class="text-purplebrandlight text-lg">★★★★★</span>
+              <span class="text-gray-600 text-sm ml-2">(4.8)</span>
+            </div>
+            <div class="text-base text-gray-600">
+              <span
+                class="bg-graydark text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+                >20-30 min</span
+              >
+            </div>
+          </div>
+        </div>
+      </a>
 
+      <a
+        href="#"
+        class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+      >
+        <div class="relative h-56 w-full">
+          <img
+            src="https://via.placeholder.com/600x400/6B21A8/FFFFFF?text=Sushilicious"
+            alt="Sushilicious Imagem"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-graydark via-transparent to-transparent opacity-60"
+          ></div>
+          <span
+            class="absolute bottom-4 left-4 bg-purplebrand text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+            >Japonesa</span
+          >
+        </div>
+        <div class="p-6">
+          <h3
+            class="text-2xl font-bold text-graydark mb-2 group-hover:text-purplebrand transition-colors duration-300"
+          >
+            Sushilicious
+          </h3>
+          <p class="text-gray-600 text-base mb-3">
+            A arte do sushi fresco e saboroso.
+          </p>
+          <div
+            class="flex items-center justify-between pt-2 border-t border-gray-100"
+          >
+            <div class="flex items-center">
+              <span class="text-purplebrandlight text-lg">★★★★☆</span>
+              <span class="text-gray-600 text-sm ml-2">(4.5)</span>
+            </div>
+            <div class="text-base text-gray-600">
+              <span
+                class="bg-graydark text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+                >30-40 min</span
+              >
+            </div>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </section>

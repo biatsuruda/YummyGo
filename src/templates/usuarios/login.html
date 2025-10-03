@@ -1,0 +1,229 @@
+{% extends 'base.html' %} {% block head_scripts %} {# Inclua o SDK do Google
+Identity Platform NO HEAD para o botão ser renderizado corretamente #}
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+{% endblock head_scripts %} {% block content %}
+<div
+  id="g_id_onload"
+  data-client_id="{{ GOOGLE_CLIENT_ID }}"
+  data-callback="handleCredentialResponse"
+  data-auto_select="false"
+  {#
+  Use
+  false
+  para
+  evitar
+  o
+  one-tap
+  automático
+  se
+  não
+  for
+  desejado
+  #}
+  data-context="{{ 'signin' if request.path == url_for('usuarios.login') else 'signup' }}"
+  {#
+  Contexto
+  dinâmico
+  #}
+  data-ux_mode="popup"
+>
+  {# Ou "redirect" se preferir um redirect completo #}
+</div>
+<div
+  class="flex items-center justify-center min-h-[calc(100vh-80px)] bg-purplebrandextra_light py-12 px-4 sm:px-6 lg:px-8"
+>
+  <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+    <div class="text-center">
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-graydark">
+        Entrar na sua conta
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Ou
+        <a
+          href="{{ url_for('usuarios.cadastro') }}"
+          class="font-medium text-purplebrand hover:text-purplebranddark"
+          >cadastre-se aqui</a
+        >
+      </p>
+    </div>
+
+    {# Mensagens Flash #} {% with messages =
+    get_flashed_messages(with_categories=true) %} {% if messages %}
+    <div class="space-y-2">
+      {% for category, message in messages %}
+      <div
+        class="p-3 text-sm rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% elif category == 'success' %}bg-green-100 text-green-700{% else %}bg-blue-100 text-blue-700{% endif %}"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %} {# Formulário de Login Tradicional #}
+    <form
+      class="mt-8 space-y-6"
+      action="{{ url_for('usuarios.login') }}"
+      method="POST"
+    >
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="identificador" class="sr-only">E-mail ou Telefone</label>
+          <input
+            id="identificador"
+            name="identificador"
+            type="text"
+            autocomplete="email"
+            required
+            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-purplebrand focus:border-purplebrand focus:z-10 sm:text-sm"
+            placeholder="E-mail ou Telefone"
+          />
+        </div>
+        <div>
+          <label for="senha" class="sr-only">Senha</label>
+          <input
+            id="senha"
+            name="senha"
+            type="password"
+            autocomplete="current-password"
+            required
+            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-purplebrand focus:border-purplebrand focus:z-10 sm:text-sm"
+            placeholder="Senha"
+          />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input
+            id="remember_me"
+            name="remember_me"
+            type="checkbox"
+            class="h-4 w-4 text-purplebrand focus:ring-purplebrand border-gray-300 rounded"
+          />
+          <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+            Lembrar-me
+          </label>
+        </div>
+
+        <div class="text-sm">
+          <a
+            href="#"
+            class="font-medium text-purplebrand hover:text-purplebranddark"
+          >
+            Esqueceu sua senha?
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="btn-gradient-primary w-full flex justify-center py-2 px-4"
+        >
+          Entrar
+        </button>
+      </div>
+    </form>
+
+    <div class="relative">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+      <div class="relative flex justify-center text-sm">
+        <span class="px-2 bg-white text-gray-500">Ou</span>
+      </div>
+    </div>
+
+    {# NOVO: SEU BOTÃO CUSTOMIZADO DO GOOGLE PARA LOGIN #}
+    <div class="mb-6">
+      <button
+        id="google-signin-button"
+        {#
+        Mesma
+        id
+        do
+        cadastro,
+        mas
+        com
+        lógica
+        diferente
+        #}
+        class="w-full flex items-center justify-center bg-purplebrandlight text-white font-semibold py-3 px-4 rounded-full shadow-md hover:bg-purplebrand transition-all duration-300"
+      >
+        <img
+          src="{{ url_for('static', filename='google_logo.svg') }}"
+          alt="Google Logo"
+          class="w-5 h-5 mr-3"
+        />
+        Fazer Login com o Google
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof google !== 'undefined' && '{{ GOOGLE_CLIENT_ID }}' !== '') {
+      google.accounts.id.initialize({
+        client_id: '{{ GOOGLE_CLIENT_ID }}',
+        callback: handleCredentialResponse,
+        context: 'signin' // Define o contexto como 'signin' para login
+      })
+
+      // Configura o botão customizado para usar o prompt do Google
+      document.getElementById('google-signin-button').onclick = () => {
+        google.accounts.id.prompt()
+      }
+    } else {
+      console.error(
+        'Google Client ID não disponível ou Google SDK não carregado.'
+      )
+      const googleButton = document.getElementById('google-signin-button')
+      if (googleButton) {
+        googleButton.disabled = true
+        googleButton.textContent = 'Login com Google indisponível'
+        googleButton.classList.add('opacity-50', 'cursor-not-allowed')
+      }
+    }
+  })
+
+  // Função callback que o Google chamará após o login
+  function handleCredentialResponse(response) {
+    console.log('Token de ID do Google (Login):', response.credential)
+    fetch('/google-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: response.credential })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = data.redirect_url
+        } else {
+          alert('Erro ao fazer login com Google: ' + data.message)
+          window.location.reload()
+        }
+      })
+      .catch(error => {
+        console.error('Erro na requisição de login com Google:', error)
+        alert('Ocorreu um erro inesperado ao tentar fazer login com Google.')
+        window.location.reload()
+      })
+  }
+
+  // Função auxiliar para decodificar JWT (para depuração)
+  function decodeJwtResponse(token) {
+    var base64Url = token.split('.')[1]
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        })
+        .join('')
+    )
+    return JSON.parse(jsonPayload)
+  }
+</script>
+{% endblock content %}

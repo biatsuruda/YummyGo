@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mx-auto px-4 py-12 min-h-[calc(100vh-80px)]">
+  <h1 class="text-4xl font-bold text-graydark mb-6 text-center">
+    Central de Ajuda
+  </h1>
+  <div
+    class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md text-gray-800 leading-relaxed"
+  >
+    <p class="mb-4">
+      Bem-vindo à Central de Ajuda do YummyGo. Encontre respostas para as
+      perguntas mais frequentes e soluções para os problemas mais comuns.
+    </p>
+
+    <h2 class="text-2xl font-semibold text-graydark mb-3">
+      Perguntas Frequentes (FAQs):
+    </h2>
+    <div class="space-y-4 mb-6">
+      <div class="border rounded-lg p-4">
+        <h3 class="text-xl font-semibold text-graydark mb-2">
+          Como faço um pedido?
+        </h3>
+        <p>
+          Para fazer um pedido, navegue pelos restaurantes e pratos disponíveis,
+          adicione os itens ao seu carrinho e prossiga para o checkout. Você
+          poderá inserir seu endereço de entrega e escolher a forma de
+          pagamento.
+        </p>
+      </div>
+      <div class="border rounded-lg p-4">
+        <h3 class="text-xl font-semibold text-graydark mb-2">
+          Quais formas de pagamento são aceitas?
+        </h3>
+        <p>
+          Aceitamos diversas formas de pagamento, incluindo cartão de crédito
+          (Visa, MasterCard, Elo), Pix e, em alguns casos, pagamento na entrega
+          (dinheiro ou máquina de cartão).
+        </p>
+      </div>
+      <div class="border rounded-lg p-4">
+        <h3 class="text-xl font-semibold text-graydark mb-2">
+          Como posso acompanhar meu pedido?
+        </h3>
+        <p>
+          Após a confirmação do pedido, você pode acompanhar o status em tempo
+          real na seção "Meus Pedidos" em seu perfil. Você receberá notificações
+          sobre cada etapa.
+        </p>
+      </div>
+    </div>
+
+    <p class="mb-4">
+      Não encontrou o que procurava? Entre em contato com nosso suporte:
+      <a
+        href="{{ url_for('institucional.contato') }}"
+        class="text-purplebrand hover:underline"
+        >Página de Contato</a
+      >.
+    </p>
+  </div>
+</div>
+{% endblock content %}
