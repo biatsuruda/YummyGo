@@ -23,7 +23,7 @@ def create_app():
     db.init_app(app)
     Moment(app)
 
-    from src.models.usuario_model import Usuarios
+    from src.models.usuarios_model import Usuarios
     from src.models.endereco_model import Endereco
     from src.models.restaurante_model import Restaurante
 
@@ -34,12 +34,14 @@ def create_app():
     from src.controllers.home import home_bp
     from src.controllers.carrinho import carrinho_bp
     from src.controllers.institucional import institucional_bp
+    from src.controllers.restaurantes import restaurantes_bp
 
     # Registre os blueprints
     app.register_blueprint(home_bp)
     app.register_blueprint(usuarios_bp)
     app.register_blueprint(carrinho_bp)
     app.register_blueprint(institucional_bp)
+    app.register_blueprint(restaurantes_bp)
     
     @app.context_processor
     def inject_global_vars():
