@@ -3,6 +3,7 @@ from config_db import db
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+from flask_migrate import Migrate
 from flask_moment import Moment
 
 
@@ -21,6 +22,12 @@ def create_app():
 
     db.init_app(app)
     Moment(app)
+
+    from src.models.usuario_model import Usuarios
+    from src.models.endereco_model import Endereco
+    from src.models.restaurante_model import Restaurante
+
+    migrate = Migrate(app, db)
     
     # Importe os blueprints aqui
     from src.controllers.usuarios import usuarios_bp
