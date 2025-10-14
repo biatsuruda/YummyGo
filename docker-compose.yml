@@ -1,0 +1,16 @@
+# Aqui definimos os nossos serviços (containers)
+services:
+  # O primeiro serviço, vamos chamar de 'web'
+  web:
+    # Diz ao Compose para construir a imagem usando o Dockerfile
+    # que está na mesma pasta (indicado pelo '.')
+    build: .
+    # Mapeia a porta 8080 do seu PC para a porta 5000 do container
+    ports:
+      - "8090:5000"
+    # TRUQUE DE MESTRE PARA DESENVOLVIMENTO:
+    # Isso sincroniza a pasta do seu projeto no PC com a pasta /app
+    # dentro do container. Qualquer alteração que você fizer no código
+    # reflete na hora dentro do container, sem precisar reconstruir a imagem!
+    volumes:
+      - .:/app

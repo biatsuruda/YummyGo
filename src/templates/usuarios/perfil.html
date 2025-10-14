@@ -1,0 +1,108 @@
+{% extends 'base.html' %} {% block content %}
+<div class="bg-gray-100 min-h-screen">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold text-gray-900">Minha Conta</h1>
+      <p class="mt-2 text-lg text-gray-600">
+        Gerencie suas informações, endereços e pedidos.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <aside class="md:col-span-1">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Navegação</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="#dados-pessoais" class="block text-gray-700 hover:text-yellow-99-dark font-medium">Dados
+                Pessoais</a>
+            </li>
+            <li>
+              <a href="#enderecos" class="block text-gray-700 hover:text-yellow-99-dark font-medium">Meus Endereços</a>
+            </li>
+            <li>
+              <a href="#pagamentos" class="block text-gray-700 hover:text-yellow-99-dark font-medium">Pagamento</a>
+            </li>
+            <li>
+              <a href="#pedidos" class="block text-gray-700 hover:text-yellow-99-dark font-medium">Meus Pedidos</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="md:col-span-2 space-y-8">
+        <section id="dados-pessoais" class="bg-white p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-6">
+            Dados Pessoais
+          </h3>
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm font-medium text-gray-600">Nome Completo</label>
+              <p class="text-lg text-gray-900">{{ usuario.nome }}</p>
+            </div>
+            <div>
+              <label class="text-sm font-medium text-gray-600">E-mail</label>
+              <p class="text-lg text-gray-900">{{ usuario.email }}</p>
+            </div>
+            <div>
+              <label class="text-sm font-medium text-gray-600">Telefone</label>
+              <p class="text-lg text-gray-900">{{ usuario.telefone }}</p>
+            </div>
+          </div>
+          <a href="{{ url_for('usuarios.editar_perfil') }}"
+            class="mt-6 inline-block bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition duration-200">
+            Editar Dados
+          </a>
+        </section>
+
+        <section id="enderecos" class="bg-white p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-6">
+            Meus Endereços
+          </h3>
+          {% if usuario.endereco %}
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm font-medium text-gray-600">CEP</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.cep }}</p>
+            </div>
+            <div>
+              <label class="text-sm font-medium text-gray-600">Rua</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.rua }}</p>
+            </div>
+            <div>
+              <label class="text-sm font-medium text-gray-600">Número</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.numero }}</p>
+            </div>
+            {% if usuario.endereco.complemento %}
+            <div>
+              <label class="text-sm font-medium text-gray-600">Complemento</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.complemento }}</p>
+            </div>
+            {% endif %}
+            <div>
+              <label class="text-sm font-medium text-gray-600">Bairro</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.bairro }}</p>
+            </div>
+            <div>
+              <label class="text-sm font-medium text-gray-600">Cidade</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.cidade }}</p>
+            </div>
+            <div>
+              <label class="text-sm font-medium text-gray-600">Estado</label>
+              <p class="text-lg text-gray-900">{{ usuario.endereco.estado }}</p>
+            </div>
+          </div>
+          {% else %}
+          <p class="text-gray-600">Nenhum endereço cadastrado.</p>
+          {% endif %}
+          <br>
+          <a href="{{ url_for('usuarios.editar_endereco') }}"
+            class="mt-6 bg-yellow-99 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-99-dark transition duration-200">
+            Adicionar Novo Endereço
+          </a>
+        </section>
+      </main>
+    </div>
+  </div>
+</div>
+{% endblock %}

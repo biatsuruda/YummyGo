@@ -1,0 +1,377 @@
+{% extends 'base.html' %} {% block content %}
+
+<section
+  class="bg-white py-24 md:py-32 flex items-center justify-center min-h-[60vh] lg:min-h-[70vh] relative overflow-hidden"
+>
+  <div
+    class="absolute inset-0 bg-purplebrandextra_light opacity-40 transform -skew-y-3 scale-110"
+  ></div>
+  <div
+    class="absolute inset-0 bg-contain bg-no-repeat bg-right-bottom opacity-10"
+    style="background-image: url('{{ url_for('static', filename='pattern-food.svg') }}'); background-size: 50% auto;"
+  ></div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+    <h1
+      id="slogan"
+      class="text-4xl md:text-6xl font-extrabold text-graydark leading-tight mb-6 animate-fade-in-down"
+    ></h1>
+
+    <p
+      class="text-lg md:text-xl text-gray-700 mb-10 animate-fade-in-down delay-200 max-w-2xl mx-auto"
+    >
+      Conectando você aos sabores mais incríveis da sua cidade, com rapidez e
+      facilidade.
+    </p>
+
+    <div class="max-w-xl mx-auto animate-fade-in-down delay-400">
+      <div
+        class="flex shadow-xl rounded-full overflow-hidden border border-gray-200"
+      >
+        <div class="relative flex-1">
+          <span
+            class="absolute inset-y-0 left-4 flex items-center text-gray-500 text-xl"
+            >📍</span
+          >
+          <input
+            type="text"
+            placeholder="Digite seu endereço de entrega"
+            class="w-full pl-12 pr-4 py-4 md:py-5 text-lg border-none focus:outline-none focus:ring-0"
+          />
+        </div>
+        <button
+          class="bg-purplebrand text-white px-8 md:px-10 py-4 md:py-5 font-bold hover:bg-purplebranddark transition-colors duration-300 text-lg flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-down {
+    animation: fadeInDown 1s ease-out forwards;
+  }
+  #slogan::after {
+    content: '|';
+    margin-left: 4px;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const text = 'YummyGo: Seu delivery favorito em poucos cliques' // Slogan atualizado
+    const sloganElement = document.getElementById('slogan')
+    let index = 0
+    let isDeleting = false
+    let speed = 100
+
+    function typeEffect() {
+      if (!isDeleting && index <= text.length) {
+        sloganElement.textContent = text.substring(0, index)
+        index++
+      } else if (isDeleting && index >= 0) {
+        sloganElement.textContent = text.substring(0, index)
+        index--
+      }
+
+      let typeSpeed = isDeleting ? 60 : 120
+
+      if (index === text.length && !isDeleting) {
+        isDeleting = true
+        typeSpeed = 1500
+      } else if (index === 0 && isDeleting) {
+        isDeleting = false
+        typeSpeed = 500
+      }
+
+      setTimeout(typeEffect, typeSpeed)
+    }
+    typeEffect()
+  })
+</script>
+
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2
+      class="text-3xl md:text-4xl font-extrabold text-graydark mb-10 text-center"
+    >
+      Navegue pelas <span class="text-purplebrand">Categorias</span>
+    </h2>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍕</span>
+        </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Pizza
+        </p>
+      </a>
+
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍔</span>
+        </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Hambúrguer
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍣</span>
+        </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Japonesa
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🥗</span>
+        </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Saudável
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">🍰</span>
+        </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Doces
+        </p>
+      </a>
+      <a
+        href="#"
+        class="block text-center group cursor-pointer p-6 bg-purplebrandextra_light rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        <div
+          class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-purplebrandlight group-hover:border-purplebrand transition-colors duration-300"
+        >
+          <span class="text-4xl">☕</span>
+        </div>
+        <p
+          class="text-lg font-semibold text-graydark group-hover:text-purplebrand transition-colors duration-300"
+        >
+          Bebidas
+        </p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-purplebrandextra_light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2
+      class="text-3xl md:text-4xl font-extrabold text-graydark mb-10 text-center"
+    >
+      Descubra <span class="text-purplebrand">Restaurantes</span> Próximos
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a
+        href="#"
+        class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+      >
+        <div class="relative h-56 w-full">
+          <img
+            src="https://via.placeholder.com/600x400/6B21A8/FFFFFF?text=Pizzaria+Bella"
+            alt="Pizzaria Bella Imagem"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-graydark via-transparent to-transparent opacity-60"
+          ></div>
+          <span
+            class="absolute bottom-4 left-4 bg-purplebrand text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+            >Pizza</span
+          >
+        </div>
+        <div class="p-6">
+          <h3
+            class="text-2xl font-bold text-graydark mb-2 group-hover:text-purplebrand transition-colors duration-300"
+          >
+            Pizzaria Bella
+          </h3>
+          <p class="text-gray-600 text-base mb-3">
+            Sabor autêntico italiano, direto na sua casa.
+          </p>
+          <div
+            class="flex items-center justify-between pt-2 border-t border-gray-100"
+          >
+            <div class="flex items-center">
+              <span class="text-purplebrandlight text-lg">★★★★☆</span>
+              <span class="text-gray-600 text-sm ml-2">(4.2)</span>
+            </div>
+            <div class="text-base text-gray-600">
+              <span
+                class="bg-graydark text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+                >25-35 min</span
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="#"
+        class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+      >
+        <div class="relative h-56 w-full">
+          <img
+            src="https://via.placeholder.com/600x400/6B21A8/FFFFFF?text=Burger+House"
+            alt="Burger House Imagem"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-graydark via-transparent to-transparent opacity-60"
+          ></div>
+          <span
+            class="absolute bottom-4 left-4 bg-purplebrand text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+            >Hambúrguer</span
+          >
+        </div>
+        <div class="p-6">
+          <h3
+            class="text-2xl font-bold text-graydark mb-2 group-hover:text-purplebrand transition-colors duration-300"
+          >
+            Burger House
+          </h3>
+          <p class="text-gray-600 text-base mb-3">
+            Os melhores hambúrgueres artesanais da cidade.
+          </p>
+          <div
+            class="flex items-center justify-between pt-2 border-t border-gray-100"
+          >
+            <div class="flex items-center">
+              <span class="text-purplebrandlight text-lg">★★★★★</span>
+              <span class="text-gray-600 text-sm ml-2">(4.8)</span>
+            </div>
+            <div class="text-base text-gray-600">
+              <span
+                class="bg-graydark text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+                >20-30 min</span
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="#"
+        class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+      >
+        <div class="relative h-56 w-full">
+          <img
+            src="https://via.placeholder.com/600x400/6B21A8/FFFFFF?text=Sushilicious"
+            alt="Sushilicious Imagem"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-graydark via-transparent to-transparent opacity-60"
+          ></div>
+          <span
+            class="absolute bottom-4 left-4 bg-purplebrand text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg"
+            >Japonesa</span
+          >
+        </div>
+        <div class="p-6">
+          <h3
+            class="text-2xl font-bold text-graydark mb-2 group-hover:text-purplebrand transition-colors duration-300"
+          >
+            Sushilicious
+          </h3>
+          <p class="text-gray-600 text-base mb-3">
+            A arte do sushi fresco e saboroso.
+          </p>
+          <div
+            class="flex items-center justify-between pt-2 border-t border-gray-100"
+          >
+            <div class="flex items-center">
+              <span class="text-purplebrandlight text-lg">★★★★☆</span>
+              <span class="text-gray-600 text-sm ml-2">(4.5)</span>
+            </div>
+            <div class="text-base text-gray-600">
+              <span
+                class="bg-graydark text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+                >30-40 min</span
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block head_scripts %}
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+{% endblock head_scripts %}
+{% block content %}
+
+<div class="min-h-[calc(100vh-80px)] flex flex-col md:flex-row bg-purplebrandextra_light">
+  <!-- Lado esquerdo: imagem e textos -->
+  <div class="md:w-1/2 relative bg-purplebrand p-8 flex flex-col justify-center items-center text-white">
+    <img
+      src="{{ url_for('static', filename='chef_red_background.png') }}" 
+      alt="Chef apresentando prato"
+      class="w-full max-w-md rounded-lg shadow-lg"
+      style="z-index: 1;"
+    />
+    <!-- Textos sobrepostos -->
+    <div class="absolute top-12 left-12 space-y-4 max-w-xs z-10">
+      <div class="flex items-center space-x-2 bg-red-600 rounded-full px-4 py-2 w-max">
+        <i class="fas fa-chart-line text-white"></i>
+        <span class="font-bold text-lg">Dos doces</span>
+      </div>
+      <div class="bg-red-600 rounded-full px-4 py-2 w-max font-bold text-lg">à comida</div>
+      <div class="bg-red-600 rounded-full px-4 py-2 w-max font-bold text-lg">brasileira</div>
+      <p class="mt-6 text-white font-semibold text-base">
+        Patrocinador oficial do <br/>
+        <img src="{{ url_for('static', filename='masterchef_logo.png') }}" alt="MasterChef" class="inline-block h-6" />
+      </p>
+    </div>
+  </div>
+
+  <!-- Lado direito: formulário -->
+  <div class="md:w-1/2 bg-white p-10 flex flex-col justify-center">
+    <div class="max-w-md mx-auto">
+      <h2 class="text-3xl font-bold text-graydark mb-4">Cadastre seu restaurante</h2>
+      <p class="text-gray-600 mb-8">Entre e ganhe 1 mês de mensalidade grátis!</p>
+
+      <form method="POST" action="{{ url_for('restaurante.cadastro') }}">
+        <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">E-mail*</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="email@email.com.br"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purplebrand focus:border-transparent transition-all duration-300 mb-6"
+        />
+
+        <button
+          type="submit"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors duration-300"
+        >
+          Cadastrar agora
+        </button>
+      </form>
+
+      <p class="text-xs text-gray-500 mt-4">
+        Ao continuar, você concorda em receber comunicações do iFood. Confira nossa
+        <a href="#" class="underline hover:text-purplebrand">Declaração de Privacidade</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

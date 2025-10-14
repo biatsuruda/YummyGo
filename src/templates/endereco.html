@@ -1,0 +1,47 @@
+<h2>Editar Endereço</h2>
+<form method="POST" id="form-endereco" action="{{ url_for('usuarios.editar_endereco') }}">
+  <label>CEP</label>
+  <input type="text" name="cep" id="cep" value="{{ usuario.endereco.cep if usuario.endereco else '' }}" required>
+  <button type="button" id="btn-buscar-cep">Buscar CEP</button>
+
+  <label>Rua</label>
+  <input type="text" name="rua" id="rua" value="{{ usuario.endereco.rua if usuario.endereco else '' }}" required>
+  
+  <label>Número</label>
+  <input type="text" name="numero" id="numero" value="{{ usuario.endereco.numero if usuario.endereco else '' }}" required>
+  
+  <label>Complemento</label>
+  <input type="text" name="complemento" value="{{ usuario.endereco.complemento if usuario.endereco else '' }}">
+  
+  <label>Bairro</label>
+  <input type="text" name="bairro" id="bairro" value="{{ usuario.endereco.bairro if usuario.endereco else '' }}" required>
+  
+  <label>Cidade</label>
+  <input type="text" name="cidade" id="cidade" value="{{ usuario.endereco.cidade if usuario.endereco else '' }}" required>
+  
+  <label>Estado</label>
+  <input type="text" name="estado" id="estado" value="{{ usuario.endereco.estado if usuario.endereco else '' }}" required>
+  
+  <button type="submit">Salvar Endereço</button>
+</form>
+
+<script>
+    // Ao clicar no botão "Buscar CEP", preencher os campos de endereço automaticamente via API ViaCEP
+document.getElementById('btn-buscar-cep').addEventListener('click', async function() {
+    const cep = document.getElementById('cep').value.replace(/\D/g, '');
+    if(cep.length === 8) {
+        const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await res.json();
+        if(!data.erro) {
+            document.getElementById('rua').value = data.logradouro;
+            document.getElementById('bairro').value = data.bairro;
+            document.getElementById('cidade').value = data.localidade;
+            document.getElementById('estado').value = data.uf;
+        } else {
+            alert('CEP não encontrado.');
+        }
+    } else {
+        alert('CEP inválido. Digite 8 números.');
+    }
+});
+</script>

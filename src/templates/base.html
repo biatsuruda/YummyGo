@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YummyGo - Seu delivery favorito</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              purplebrand: '#6B21A8', // Cor principal YummyGo
+              purplebrandlight: '#9333EA', // Hover / efeito claro
+              purplebranddark: '#4C1D95', // Hover mais escuro
+              purplebrandextra_light: '#F7F0FC', // Roxo muito claro para backgrounds
+              graydark: '#1A202C' // Um cinza bem escuro para textos principais
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif']
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+      @keyframes logoDrop {
+        0% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+        60% { opacity: 1; transform: translateY(10px) scale(1.05); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .animate-logo { animation: logoDrop 1s ease-out; }
+
+      .btn-primary { @apply bg-purplebrand text-white px-6 py-3 rounded-full font-semibold shadow-md hover:bg-purplebranddark transition-all duration-300; }
+      .btn-secondary-outline { @apply border-2 border-purplebrand text-purplebrand px-6 py-3 rounded-full font-semibold hover:bg-purplebrandextra_light transition-all duration-300; }
+      .btn-text-link { @apply text-gray-700 hover:text-purplebrand font-medium transition-colors duration-300; }
+      .btn-gradient-primary {
+        @apply bg-gradient-to-r from-purplebrand to-purplebrandlight text-white 
+               px-6 py-3 rounded-full font-semibold shadow-lg 
+               hover:from-purplebranddark hover:to-purplebrand 
+               focus:outline-none focus:ring-2 focus:ring-purplebrandlight focus:ring-opacity-75
+               transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-md;
+      }
+    </style>
+
+    {# ESTE É O BLOCO CRÍTICO PARA INSERIR SCRIPTS NO HEAD #}
+    {% block head_scripts %}{% endblock head_scripts %} 
+
+  </head>
+  <body class="bg-white text-graydark font-sans antialiased">
+    <nav class="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100 py-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6 lg:px-8">
+        <a href="{{ url_for('home.index') }}" class="flex-shrink-0">
+          <img
+            src="{{ url_for('static', filename='logo-transparente.png') }}"
+            alt="YummyGo Logo"
+            class="h-44 md:h-48 animate-logo"
+          />
+        </a>
+
+        <div class="hidden md:flex flex-1 justify-center items-center max-w-lg mx-8">
+          <div class="relative w-full">
+            <input
+              type="text"
+              placeholder="Buscar restaurantes ou pratos..."
+              class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purplebrand focus:border-transparent transition-all duration-300"
+            />
+            <button
+              class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purplebrand p-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          {% if session.get('usuario_id') %} {# Use .get para evitar erro se a chave não existir #}
+          <a href="{{ url_for('usuarios.perfil') }}" class="btn-text-link">
+            Olá, {{ session['usuario_nome'].split()[0] }}
+          </a>
+          <a href="{{ url_for('usuarios.logout') }}" class="btn-primary">
+            Sair
+          </a>
+          {% else %}
+          <a
+            href="{{ url_for('usuarios.cadastro') }}"
+            class="btn-secondary-outline"
+          >
+            Cadastrar
+          </a>
+          <a href="{{ url_for('usuarios.login') }}" class="btn-primary">
+            Entrar
+          </a>
+          {% endif %}
+          <a
+            href="{{ url_for('carrinho.view') }}" {# Mantido 'view', ajuste se for 'ver_carrinho' #}
+            class="relative text-gray-700 hover:text-purplebrand transition-colors duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            <span
+              class="absolute -top-2 -right-2 bg-purplebrand text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+            >
+              {{ session.get('carrinho_count', 0) }} {# Melhor usar .get com valor padrão #}
+            </span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="bg-graydark text-white py-12 mt-auto">
+      <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-2xl font-bold mb-4 text-purplebrand">YummyGo</h3>
+          <p class="text-gray-400 text-sm">
+            Seu pedido, do seu jeito, onde você estiver.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold text-purplebrand mb-4">Empresa</h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="{{ url_for('institucional.sobre_nos') }}"
+                class="text-gray-300 hover:text-white transition-colors duration-200"
+                >Sobre nós</a
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('institucional.carreiras') }}"
+                class="text-gray-300 hover:text-white transition-colors duration-200"
+                >Carreiras</a
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('institucional.imprensa') }}"
+                class="text-gray-300 hover:text-white transition-colors duration-200"
+                >Imprensa</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold text-purplebrand mb-4">Suporte</h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="{{ url_for('institucional.central_de_ajuda') }}"
+                class="text-gray-300 hover:text-white transition-colors duration-200"
+                >Central de ajuda</a
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('institucional.contato') }}"
+                class="text-gray-300 hover:text-white transition-colors duration-200"
+                >Contato</a
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('institucional.termos_de_uso') }}"
+                class="text-gray-300 hover:text-white transition-colors duration-200"
+                >Termos de uso</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold text-purplebrand mb-4">Siga-nos</h4>
+          <div class="flex space-x-4">
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white transition-colors duration-200"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white transition-colors duration-200"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white transition-colors duration-200"
+              ><i class="fab fa-twitter"></i
+            ></a>
+          </div>
+        <a
+    href="restaurante.html"
+    class="btn-primary inline-block px-6 py-2 text-center text-white rounded-full font-semibold shadow-md hover:bg-purplebranddark transition-all duration-300"
+  >
+    Cadastre seu Restaurante
+  </a>
+</div>
+      <div
+        class="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm"
+      >
+        &copy; {{ moment().format('YYYY') }} YummyGo. Todos os direitos
+        reservados.
+      </div>
+    </footer>
+  </body>
+</html>
