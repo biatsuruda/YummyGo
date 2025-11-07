@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meu Portal - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Meu Portal: {{ current_user.restaurante.nome_fantasia }}</h2>
+    <p>
+      Bem-vindo ao seu painel de controlo. Aqui pode gerir todo o seu
+      estabelecimento.
+    </p>
+
+    <hr />
+
+    <h3>Ferramentas de Gestão</h3>
+
+    <nav>
+      <ul style="list-style: none; padding: 0">
+        <li style="margin: 10px 0">
+          <a href="{{ url_for('restaurant.manage_menu') }}">
+            <strong>Gerir Cardápio</strong>
+          </a>
+          <p style="margin: 0; color: #555">
+            Adicione, edite ou apague categorias e produtos.
+          </p>
+        </li>
+
+        <li style="margin: 10px 0">
+          <a href="{{ url_for('restaurant.manage_orders') }}">
+            <strong>Ver e Gerir Pedidos Recebidos</strong>
+          </a>
+          <p style="margin: 0; color: #555">
+            Acompanhe novos pedidos e atualize o status.
+          </p>
+        </li>
+
+        <li style="margin: 10px 0">
+          <a href="#">
+            <strong>Ver Pedidos Recebidos</strong>
+          </a>
+          <p style="margin: 0; color: #555">
+            Acompanhe os pedidos em tempo real (Em construção).
+          </p>
+        </li>
+
+        <li style="margin: 10px 0">
+          <a href="#">
+            <strong>Informações do Estabelecimento</strong>
+          </a>
+          <p style="margin: 0; color: #555">
+            Atualize o seu CNPJ, taxa de entrega, logo, etc. (Em construção).
+          </p>
+        </li>
+      </ul>
+    </nav>
+
+    <hr />
+    <p>
+      <a href="{{ url_for('auth.home') }}"
+        >Voltar à Página Inicial do YummyGo</a
+      >
+    </p>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login com Telemóvel - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Login com Código de Acesso</h2>
+    <p>
+      Insira o seu número de telemóvel e enviaremos um código de 6 dígitos por
+      SMS.
+    </p>
+    <p><em>(Use o formato completo, ex: +5511999999999)</em></p>
+
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.telefone.label }}<br />
+        {{ form.telefone(size=30) }} {% for error in form.telefone.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>{{ form.submit() }}</p>
+    </form>
+
+    <hr />
+    <p><a href="{{ url_for('auth.login') }}">Voltar ao login com senha</a>.</p>
+  </body>
+</html>

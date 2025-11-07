@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>Restaurantes Disponíveis</h2>
+<p>Escolha um dos nossos parceiros para ver o cardápio.</p>
+
+<hr />
+
+<div>
+  {% if not restaurantes %}
+  <p>Nenhum restaurante registado ainda.</p>
+  {% else %} {% for rest in restaurantes %}
+  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px">
+    <h3>
+      <a href="{{ url_for('auth.view_restaurant', restaurante_id=rest.id) }}">
+        {{ rest.nome_fantasia }}
+      </a>
+    </h3>
+    <p>
+      Taxa de entrega: R$ {{ "%.2f"|format(rest.taxa_entrega) }}<br />
+      Tempo médio: {{ rest.tempo_medio_entrega }} min
+    </p>
+  </div>
+  {% endfor %} {% endif %}
+</div>
+
+{% endblock %}

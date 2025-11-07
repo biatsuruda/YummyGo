@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meus Endereços - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Meus Endereços</h2>
+    <hr />
+
+    <h3>Endereços Salvos</h3>
+
+    {% if not enderecos %}
+    <p>Você ainda não tem endereços salvos.</p>
+    {% else %}
+    <ul style="list-style: none; padding: 0">
+      {% for endereco in enderecos %}
+      <li style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px">
+        <strong>{{ endereco.rua }}, {{ endereco.numero }}</strong><br />
+        {{ endereco.bairro }}, {{ endereco.cidade }} - {{ endereco.estado }}<br />
+        CEP: {{ endereco.cep }} {% if endereco.complemento %}<br />Compl: {{
+        endereco.complemento }}{% endif %}
+
+        <form
+          method="POST"
+          action="{{ url_for('client.delete_address', endereco_id=endereco.id) }}"
+          style="display: inline; margin-left: 10px"
+        >
+          <input
+            type="submit"
+            value="Apagar"
+            onclick="return confirm('Tem a certeza que quer apagar este endereço?')"
+          />
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <hr />
+
+    <h3>Adicionar Novo Endereço</h3>
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.cep.label }}<br />
+        {{ form.cep(size=10, id="cep") }}
+      </p>
+
+      <p>
+        {{ form.rua.label }}<br />
+        {{ form.rua(size=40, id="rua") }}
+      </p>
+
+      <p>
+        {{ form.bairro.label }}<br />
+        {{ form.bairro(size=30, id="bairro") }}
+      </p>
+
+      <p>
+        {{ form.cidade.label }}<br />
+        {{ form.cidade(size=30, id="cidade") }}
+      </p>
+
+      <p>
+        {{ form.estado.label }}<br />
+        {{ form.estado(size=3, id="uf") }}
+      </p>
+
+      <p>
+        {{ form.numero.label }}<br />
+        {{ form.numero(size=10) }}
+      </p>
+
+      <p>
+        {{ form.complemento.label }}<br />
+        {{ form.complemento(size=30) }}
+      </p>
+
+      <p>{{ form.submit() }}</p>
+    </form>
+
+    <hr />
+    <p><a href="{{ url_for('client.profile') }}">Voltar ao Perfil</a></p>
+
+    <script src="{{ url_for('static', filename='js/address_form.js') }}"></script>
+  </body>
+</html>

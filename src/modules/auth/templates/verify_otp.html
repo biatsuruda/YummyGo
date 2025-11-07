@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verificar Código - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Verifique o seu E-mail</h2>
+    <p>
+      Enviámos um código para <strong>{{ email }}</strong>. Por favor, insira-o
+      abaixo.
+    </p>
+
+    <form method="POST" action="{{ url_for('auth.verify_otp', email=email) }}">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.otp_code.label }}<br />
+        {{ form.otp_code(size=10) }} {% for error in form.otp_code.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>{{ form.submit() }}</p>
+    </form>
+
+    <hr />
+    <p>
+      <a href="{{ url_for('auth.email_login') }}">Reenviar código</a>
+      (funcionalidade futura)
+    </p>
+  </body>
+</html>

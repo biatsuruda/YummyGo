@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meus Pedidos - YummyGo</title>
+  </head>
+  <body>
+    <h2>Histórico de Pedidos</h2>
+    <p>Aqui pode acompanhar o status dos seus pedidos.</p>
+    <hr />
+
+    {% if not pedidos %}
+    <p>Você ainda não tem pedidos registados.</p>
+    <p><a href="{{ url_for('auth.home') }}">Faça o seu primeiro pedido!</a></p>
+    {% else %} {% for pedido in pedidos %}
+    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px">
+      <h3>
+        Pedido #{{ pedido.id }}
+        <span style="color: green; margin-left: 10px"
+          >Status: {{ pedido.status }}</span
+        >
+      </h3>
+
+      <p>
+        <strong>Restaurante:</strong> {{ pedido.restaurante.nome_fantasia }}<br />
+        <strong>Total Pago:</strong> R$ {{ "%.2f"|format(pedido.preco_total)
+        }}<br />
+        <strong>Data:</strong> {{ pedido.data_criacao.strftime('%d/%m/%Y às
+        %H:%M') }}<br />
+        <strong>Entregar em:</strong> {{ pedido.endereco_entrega }}
+      </p>
+
+      <h4>Itens:</h4>
+      <ul>
+        {% for item in pedido.itens %}
+        <li>{{ item.quantidade }}x {{ item.produto.nome }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %} {% endif %}
+
+    <hr />
+    <p><a href="{{ url_for('client.profile') }}">Voltar ao Meu Perfil</a></p>
+  </body>
+</html>

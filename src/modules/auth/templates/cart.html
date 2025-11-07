@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>Meu Carrinho de Compras</h2>
+
+{% if not itens_carrinho %}
+<p>O seu carrinho está vazio.</p>
+<p><a href="{{ url_for('auth.home') }}">Ver restaurantes</a></p>
+{% else %}
+
+<table
+  border="1"
+  style="width: 100%; border-collapse: collapse"
+  cellpadding="5"
+>
+  <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Preço Unit.</th>
+      <th>Quantidade</th>
+      <th>Subtotal</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in itens_carrinho %}
+    <tr>
+      <td>{{ item.nome }}</td>
+      <td>R$ {{ "%.2f"|format(item.preco) }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>R$ {{ "%.2f"|format(item.subtotal) }}</td>
+      <td>
+        <form
+          method="POST"
+          action="{{ url_for('auth.remove_from_cart', produto_id=item.id) }}"
+        >
+          <input type="submit" value="Remover" />
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3" style="text-align: right">
+        <strong>Total dos Produtos:</strong>
+      </td>
+      <td colspan="2">
+        <strong>R$ {{ "%.2f"|format(total_carrinho) }}</strong>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<hr />
+
+<p>
+  <a href="{{ url_for('auth.view_restaurant', restaurante_id=restaurante_id) }}"
+    >Adicionar mais itens</a
+  >
+</p>
+
+<p style="font-size: 1.2em; font-weight: bold">
+  <a href="{{ url_for('auth.checkout') }}">Ir para o Checkout</a>
+</p>
+
+{% endif %} {% endblock %}

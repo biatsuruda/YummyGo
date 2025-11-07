@@ -1,0 +1,24 @@
+# --- Core da Aplicação ---
+flask                # O framework web
+python-dotenv        # Carrega variáveis de ambiente dos ficheiros .env
+
+# --- Base de Dados ---
+flask-sqlalchemy     # ORM para facilitar a conversa com a DB
+flask-migrate        # Controla as "versões" da nossa DB (migrações)
+
+# --- Autenticação e Segurança ---
+flask-login          # Gestão de sessão de utilizador (login, logout)
+flask-bcrypt         # Encriptação de palavras-passe
+flask-wtf            # Formulários e proteção CSRF
+email_validator
+
+# --- Autenticação Social & OTP (One-Time Password) ---
+authlib              # Para Login com Google e Facebook
+twilio               # Para enviar SMS (OTP)
+flask-mail           # Para enviar E-mails (OTP)
+
+# --- Pagamentos ---
+stripe
+
+# --- Utilidades ---
+gunicorn             # Servidor de produção (para mais tarde)

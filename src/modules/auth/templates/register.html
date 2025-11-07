@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Criar Conta - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Criar Nova Conta YummyGo</h2>
+
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.nome_completo.label }}<br />
+        {{ form.nome_completo(size=30) }} {% for error in
+        form.nome_completo.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.email.label }}<br />
+        {{ form.email(size=30) }} {% for error in form.email.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.telefone.label }}<br />
+        {{ form.telefone(size=20) }} {% for error in form.telefone.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.password.label }}<br />
+        {{ form.password(size=20) }} {% for error in form.password.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.confirm_password.label }}<br />
+        {{ form.confirm_password(size=20) }} {% for error in
+        form.confirm_password.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+            {{ form.submit() }}
+        </p>
+
+        <p>
+            <a href="{{ url_for('auth.google_login') }}">Registar com Google</a>
+        </p>
+        <p>
+            <a href="{{ url_for('auth.facebook_login') }}">Registar com Facebook</a>
+        </p>
+        </form>
+
+    </form>
+  </body>
+</html>

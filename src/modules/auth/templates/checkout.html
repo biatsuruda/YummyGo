@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>Finalizar Pedido</h2>
+
+{% if not itens_carrinho %}
+<p>O seu carrinho está vazio. Não há nada para finalizar.</p>
+<p><a href="{{ url_for('auth.home') }}">Ver restaurantes</a></p>
+{% else %}
+
+<h3>1. Resumo do Pedido (Restaurante: {{ restaurante.nome_fantasia }})</h3>
+
+<table
+  border="1"
+  style="width: 100%; border-collapse: collapse"
+  cellpadding="5"
+>
+  <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Preço Unit.</th>
+      <th>Quantidade</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in itens_carrinho %}
+    <tr>
+      <td>{{ item.nome }}</td>
+      <td>R$ {{ "%.2f"|format(item.preco) }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>R$ {{ "%.2f"|format(item.subtotal) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3" style="text-align: right">
+        <strong>Subtotal dos Produtos:</strong>
+      </td>
+      <td><strong>R$ {{ "%.2f"|format(total_produtos) }}</strong></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="text-align: right">
+        <strong>Taxa de Entrega:</strong>
+      </td>
+      <td><strong>R$ {{ "%.2f"|format(taxa_entrega) }}</strong></td>
+    </tr>
+    <tr style="font-size: 1.2em">
+      <td colspan="3" style="text-align: right">
+        <strong>Total a Pagar:</strong>
+      </td>
+      <td><strong>R$ {{ "%.2f"|format(total_final) }}</strong></td>
+    </tr>
+  </tfoot>
+</table>
+
+<hr />
+
+<h3>2. Endereço de Entrega</h3>
+
+<form method="POST" action="">
+  {{ form.hidden_tag() }} {% if not form.endereco_id.choices %}
+  <p style="color: red">Você não tem endereços registados!</p>
+  <p>
+    <a href="{{ url_for('client.manage_addresses') }}">
+      Clique aqui para adicionar um endereço primeiro.
+    </a>
+  </p>
+  {% else %}
+  <div style="margin-bottom: 15px">
+    {{ form.endereco_id.label }}<br />
+    {% for subfield in form.endereco_id %}
+    <div style="margin: 5px 0">{{ subfield }} {{ subfield.label }}</div>
+    {% endfor %}
+  </div>
+
+  <p>{{ form.submit() }}</p>
+  {% endif %}
+</form>
+
+<hr />
+<p><a href="{{ url_for('auth.view_cart') }}">Voltar ao Carrinho</a></p>
+
+{% endif %} {% endblock %}

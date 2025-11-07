@@ -1,0 +1,17 @@
+# Ambiente Virtual
+/.venv
+
+# Ficheiros de Segredos
+/.env
+
+# Bases de dados locais
+*.db
+*.sqlite3
+
+# Ficheiros compilados do Python
+__pycache__/
+*.pyc
+
+# Ficheiros de IDE
+.vscode/
+.idea/

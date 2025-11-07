@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meu Cardápio - YummyGo</title>
+  </head>
+  <body style="display: flex; gap: 20px">
+    <main style="flex: 2">
+      <h2>Meu Cardápio</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="flash-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <hr />
+
+      <h3>Categorias e Produtos Salvos</h3>
+
+      {% if not categorias %}
+      <p>Você ainda não tem categorias. Adicione uma ao lado.</p>
+      {% else %} {% for categoria in categorias %}
+      <div
+        style="background-color: #f4f4f4; padding: 10px; margin-bottom: 15px"
+      >
+        <h4
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <span>{{ categoria.nome }}</span>
+          <form
+            method="POST"
+            action="{{ url_for('restaurant.delete_category', categoria_id=categoria.id) }}"
+            style="display: inline"
+          >
+            <input
+              type="submit"
+              value="Apagar Categoria"
+              onclick="return confirm('ATENÇÃO: Apagar esta categoria também apagará TODOS os produtos dentro dela. Tem a certeza?')"
+            />
+          </form>
+        </h4>
+
+        <ul style="list-style: none; padding-left: 10px">
+          {% if not categoria.produtos %}
+          <li><em>Nenhum produto nesta categoria.</em></li>
+          {% else %} {% for produto in categoria.produtos %}
+          <li style="border-bottom: 1px solid #ddd; padding: 5px 0">
+            <strong>{{ produto.nome }}</strong> - R$ {{
+            "%.2f"|format(produto.preco) }}
+            <span style="color: gray">
+              ({{ "Disponível" if produto.disponivel else "Indisponível"
+              }})</span
+            >
+            <p style="margin: 2px 0; color: #555">{{ produto.descricao }}</p>
+
+            <form
+              method="POST"
+              action="{{ url_for('restaurant.delete_product', produto_id=produto.id) }}"
+              style="display: inline; margin-left: 10px"
+            >
+              <input
+                type="submit"
+                value="Apagar Produto"
+                onclick="return confirm('Tem a certeza que quer apagar este produto?')"
+              />
+            </form>
+          </li>
+          {% endfor %} {% endif %}
+        </ul>
+      </div>
+      {% endfor %} {% endif %}
+    </main>
+
+    <aside style="flex: 1; background-color: #eee; padding: 10px">
+      <h3>Adicionar Categoria</h3>
+      <form method="POST" action="{{ url_for('restaurant.manage_menu') }}">
+        {{ category_form.hidden_tag() }}
+        <p>
+          {{ category_form.nome.label }}<br />
+          {{ category_form.nome(size=30) }}
+        </p>
+        <p>{{ category_form.submit_category() }}</p>
+      </form>
+
+      <hr />
+
+      {% if categorias %}
+      <h3>Adicionar Produto</h3>
+      <form method="POST" action="{{ url_for('restaurant.manage_menu') }}">
+        {{ product_form.hidden_tag() }}
+        <p>
+          {{ product_form.categoria_id.label }}<br />
+          {{ product_form.categoria_id() }}
+        </p>
+        <p>
+          {{ product_form.nome.label }}<br />
+          {{ product_form.nome(size=30) }}
+        </p>
+        <p>
+          {{ product_form.descricao.label }}<br />
+          {{ product_form.descricao(rows=3, cols=30) }}
+        </p>
+        <p>
+          {{ product_form.preco.label }}<br />
+          {{ product_form.preco() }}
+        </p>
+        <p>
+          {{ product_form.disponivel() }} {{ product_form.disponivel.label }}
+        </p>
+        <p>{{ product_form.submit_product() }}</p>
+      </form>
+      {% else %}
+      <p>
+        <em>Adicione uma categoria primeiro para poder adicionar produtos.</em>
+      </p>
+      {% endif %}
+    </aside>
+  </body>
+</html>

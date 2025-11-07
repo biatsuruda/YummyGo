@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>YummyGo</title>
+
+    <style>
+      .flash-success {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .flash-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .flash-info {
+        background-color: #cce5ff;
+        color: #004085;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><a href="{{ url_for('auth.home') }}">YummyGo</a></h1>
+      <nav>
+        {% if current_user.is_authenticated %}
+        <span>Olá, {{ current_user.nome_completo }}!</span>
+
+        {% if current_user.role == 'restaurante' %}
+        <a href="{{ url_for('restaurant.dashboard') }}">Meu Portal</a>
+        {% else %}
+        <a href="{{ url_for('client.profile') }}">Meu Perfil</a>
+        <a href="{{ url_for('restaurant.register') }}">Seja um Parceiro</a>
+        {% endif %}
+
+        <a href="{{ url_for('auth.view_cart') }}">Meu Carrinho</a>
+
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+
+        {% else %}
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        <a href="{{ url_for('auth.register') }}">Registo</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <hr />
+
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="flash-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock %}
+    </main>
+  </body>
+</html>

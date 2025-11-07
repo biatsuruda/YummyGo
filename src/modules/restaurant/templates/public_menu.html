@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cardápio de {{ restaurante.nome_fantasia }} - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Cardápio de: {{ restaurante.nome_fantasia }}</h2>
+    <p>Taxa de entrega: R$ {{ "%.2f"|format(restaurante.taxa_entrega) }}</p>
+    <hr />
+
+    {% if not restaurante.categorias %}
+    <p>Este restaurante ainda não publicou o seu cardápio.</p>
+    {% else %} {% for categoria in restaurante.categorias %}
+    <div style="background-color: #f4f4f4; padding: 10px; margin-bottom: 15px">
+      <h4 style="margin-top: 0">{{ categoria.nome }}</h4>
+
+      <ul style="list-style: none; padding-left: 10px">
+        {% for produto in categoria.produtos %} {% if produto.disponivel %}
+        <li style="border-bottom: 1px solid #ddd; padding: 5px 0">
+          <strong>{{ produto.nome }}</strong> - R$ {{
+          "%.2f"|format(produto.preco) }}
+          <p style="margin: 2px 0; color: #555">{{ produto.descricao }}</p>
+
+          <form
+            method="POST"
+            action="{{ url_for('auth.add_to_cart', produto_id=produto.id) }}"
+            style="display: inline"
+          >
+            <input type="submit" value="Adicionar ao Carrinho" />
+          </form>
+        </li>
+        {% endif %} {% endfor %}
+      </ul>
+    </div>
+    {% endfor %} {% endif %}
+    <hr />
+    <p>
+      <a href="{{ url_for('auth.home') }}"
+        >Voltar para a lista de restaurantes</a
+      >
+    </p>
+  </body>
+</html>

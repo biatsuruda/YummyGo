@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Login - YummyGo</h2>
+
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.login.label }}<br />
+        {{ form.login(size=30) }} {% for error in form.login.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.password.label }}<br />
+        {{ form.password(size=20) }} {% for error in form.password.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+
+      <p>
+            {{ form.submit() }}
+        </p>
+        
+        <p>
+            <a href="{{ url_for('auth.google_login') }}">Entrar com Google</a>
+        </p>
+
+        <p>
+            <a href="{{ url_for('auth.facebook_login') }}">Entrar com Facebook</a>
+        </p>
+        <p>
+            <a href="{{ url_for('auth.email_login') }}">Entrar com código por e-mail</a>
+        </p>
+        <p>
+            <a href="{{ url_for('auth.phone_login') }}">Entrar com código por SMS</a>
+        </p>
+        </form>
+    
+    </form>
+    <hr />
+    <p>
+      Não tem uma conta?
+      <a href="{{ url_for('auth.register') }}">Crie uma aqui</a>.
+    </p>
+  </body>
+</html>

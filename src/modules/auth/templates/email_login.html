@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login com E-mail - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Login com Código de Acesso</h2>
+    <p>Insira o seu e-mail e enviaremos um código de acesso de 6 dígitos.</p>
+
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.email.label }}<br />
+        {{ form.email(size=30) }} {% for error in form.email.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>{{ form.submit() }}</p>
+    </form>
+
+    <hr />
+    <p><a href="{{ url_for('auth.login') }}">Voltar ao login com senha</a>.</p>
+  </body>
+</html>

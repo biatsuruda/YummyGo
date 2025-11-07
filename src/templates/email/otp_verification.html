@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body style="font-family: Arial, sans-serif; margin: 20px">
+    <h2>Seu Código de Verificação YummyGo</h2>
+    <p>Olá {{ nome }},</p>
+    <p>
+      Obrigado por se registar (ou fazer login) no YummyGo. Use o código abaixo
+      para verificar a sua conta.
+    </p>
+
+    <p
+      style="
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        color: #1a73e8;
+      "
+    >
+      {{ codigo_otp }}
+    </p>
+
+    <p>Este código é válido por 10 minutos.</p>
+    <p>Se não foi você que solicitou este código, pode ignorar este e-mail.</p>
+    <br />
+    <p>Atenciosamente,<br />Equipa YummyGo</p>
+  </body>
+</html>

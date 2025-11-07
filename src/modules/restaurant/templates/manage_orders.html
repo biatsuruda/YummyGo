@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pedidos Recebidos - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Pedidos Recebidos</h2>
+    <p>Pedidos em aberto para o seu restaurante (Omega).</p>
+    <hr />
+
+    {% if not pedidos %}
+    <p>🎉 Nenhum pedido em aberto. Está calmo por aqui!</p>
+    {% else %} {% for pedido in pedidos %}
+    <div style="border: 2px solid #5cb85c; padding: 15px; margin-bottom: 20px">
+      <h3>
+        Pedido #{{ pedido.id }} -
+        <span style="color: blue">Status: {{ pedido.status }}</span>
+      </h3>
+      <p>
+        <strong>Criado em:</strong> {{ pedido.data_criacao.strftime('%d/%m/%Y às
+        %H:%M') }}<br />
+        <strong>Total:</strong> R$ {{ "%.2f"|format(pedido.preco_total) }}<br />
+        <strong>Cliente:</strong> {{ pedido.cliente.nome_completo }}<br />
+        <strong>Entregar em:</strong> {{ pedido.endereco_entrega }}
+      </p>
+
+      <h4>Itens do Pedido:</h4>
+      <ul>
+        {% for item in pedido.itens %}
+        <li>
+          {{ item.quantidade }}x {{ item.produto.nome }} (R$ {{
+          "%.2f"|format(item.preco_unitario_na_compra) }} cada)
+        </li>
+        {% endfor %}
+      </ul>
+
+      {% if pedido.status in status_fluxo and pedido.status != status_fluxo[-1]
+      %}
+      <hr />
+      <form method="POST" action="{{ url_for('restaurant.manage_orders') }}">
+        {{ form.hidden_tag() }}
+        <input type="hidden" name="pedido_id" value="{{ pedido.id }}" />
+
+        {% set next_index = status_fluxo.index(pedido.status) + 1 %} {% set
+        next_status = status_fluxo[next_index] %}
+
+        <p>Próximo passo: <strong>{{ next_status }}</strong></p>
+        <input type="submit" value="Avançar para {{ next_status }}" />
+      </form>
+      {% endif %}
+    </div>
+    {% endfor %} {% endif %}
+  </body>
+</html>

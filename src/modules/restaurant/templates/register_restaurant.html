@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Seja um Parceiro - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Seja um Parceiro YummyGo</h2>
+    <p>Preencha os dados do seu estabelecimento para começar a vender.</p>
+    <hr />
+
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.nome_fantasia.label }}<br />
+        {{ form.nome_fantasia(size=40) }} {% for error in
+        form.nome_fantasia.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.cnpj.label }}<br />
+        {{ form.cnpj(size=20) }} {% for error in form.cnpj.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.taxa_entrega.label }}<br />
+        {{ form.taxa_entrega() }} {% for error in form.taxa_entrega.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.tempo_medio_entrega.label }}<br />
+        {{ form.tempo_medio_entrega() }} {% for error in
+        form.tempo_medio_entrega.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>{{ form.submit() }}</p>
+    </form>
+
+    <hr />
+    <p><a href="{{ url_for('auth.home') }}">Voltar à Página Inicial</a></p>
+  </body>
+</html>

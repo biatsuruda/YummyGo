@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verificar Código SMS - YummyGo</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <h2>Verifique o seu Telemóvel</h2>
+    <p>
+      Enviámos um código SMS para <strong>{{ telefone }}</strong>. Por favor,
+      insira-o abaixo.
+    </p>
+
+    <form
+      method="POST"
+      action="{{ url_for('auth.verify_phone_otp', telefone=telefone) }}"
+    >
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.otp_code.label }}<br />
+        {{ form.otp_code(size=10) }} {% for error in form.otp_code.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>{{ form.submit() }}</p>
+    </form>
+
+    <hr />
+    <p>
+      <a href="{{ url_for('auth.phone_login') }}">Reenviar código</a>
+      (funcionalidade futura)
+    </p>
+  </body>
+</html>
