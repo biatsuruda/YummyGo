@@ -147,3 +147,28 @@ def order_history():
         'order_history.html',
         pedidos=pedidos
     )
+
+# --- Rota para Apagar Pedido do Cliente ---
+@client_bp.route('/pedidos/apagar/<int:pedido_id>', methods=['POST'])
+@login_required
+def delete_order(pedido_id):
+    """
+    Apaga um pedido feito pelo cliente.
+    Apenas aceita POST por segurança.
+    """
+    pedido = Pedido.query.get_or_404(pedido_id)
+
+    # Verifica se o pedido pertence ao usuário logado
+    if pedido.user_id != current_user.id:
+        abort(403)
+
+    try:
+        db.session.delete(pedido)
+        db.session.commit()
+        flash('Pedido apagado com sucesso.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Erro ao apagar o pedido.', 'danger')
+        print(f"Erro ao apagar pedido: {e}")
+
+    return redirect(url_for('client.order_history'))

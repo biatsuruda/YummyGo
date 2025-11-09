@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -68,3 +69,81 @@
     </p>
   </body>
 </html>
+=======
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Meu Portal - {{ current_user.restaurante.nome_fantasia }}</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-{{ category }}" style="margin: 10px 0; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<p>
+  Bem-vindo ao seu painel de controle. Aqui você pode gerir todo o seu estabelecimento.
+</p>
+
+<hr />
+
+<h3>Ferramentas de Gestão</h3>
+
+<table border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px;" cellpadding="8">
+  <thead style="background-color: #f4f4f4;">
+    <tr>
+      <th style="text-align: left;">Funcionalidade</th>
+      <th style="text-align: left;">Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="{{ url_for('restaurant.manage_menu') }}">
+          <strong>Gerir Cardápio</strong>
+        </a>
+      </td>
+      <td>Adicione, edite ou apague categorias e produtos.</td>
+    </tr>
+
+    <tr>
+      <td>
+        <a href="{{ url_for('restaurant.manage_orders') }}">
+          <strong>Ver e Gerir Pedidos Recebidos</strong>
+        </a>
+      </td>
+      <td>Acompanhe novos pedidos e atualize o status.</td>
+    </tr>
+
+    <tr>
+      <td>
+        <a href="#">
+          <strong>Ver Pedidos Recebidos</strong>
+        </a>
+      </td>
+      <td>Acompanhe os pedidos em tempo real <em>(Em construção)</em>.</td>
+    </tr>
+
+    <tr>
+      <td>
+        <a href="#">
+          <strong>Informações do Estabelecimento</strong>
+        </a>
+      </td>
+      <td>Atualize o seu CNPJ, taxa de entrega, logo, etc. <em>(Em construção)</em>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p style="margin-top: 15px;">
+  <a href="{{ url_for('auth.home') }}">Voltar à Página Inicial do YummyGo</a>
+</p>
+
+{% endblock %}
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)

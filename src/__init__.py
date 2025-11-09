@@ -10,6 +10,10 @@ from .config import Config
 import datetime
 from .extensions import db, migrate, bcrypt, login_manager, mail, oauth
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
 def create_app(config_class=Config):
     """
     Função Application Factory.
@@ -19,6 +23,7 @@ def create_app(config_class=Config):
     
     # 1. Cria a instância da App
     app = Flask(__name__)
+<<<<<<< HEAD
     
     app.jinja_env.globals.update(now=datetime.datetime.now)
 
@@ -28,6 +33,19 @@ def create_app(config_class=Config):
 
     # 3. Inicializa as Extensões
     # Passa a instância 'app' para cada extensão para ligá-las
+=======
+
+    # Adiciona o helper de tempo ao Jinja (para exibir data/hora atual nos templates)
+    app.jinja_env.globals.update(now=datetime.datetime.now)
+
+    # 2. Carrega a Configuração principal
+    app.config.from_object(config_class)
+
+    # ✅ Define a URI do banco DEPOIS de carregar o config principal
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yummygo.db'
+
+    # 3. Inicializa as Extensões
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
@@ -36,8 +54,11 @@ def create_app(config_class=Config):
     oauth.init_app(app)
 
     # --- Configuração de OAuth (Google, Facebook, etc.) ---
+<<<<<<< HEAD
     # Vamos registar os nossos provedores OAuth aqui.
     # Isto usa as variáveis (GOOGLE_CLIENT_ID) que carregámos em config.py
+=======
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
     oauth.register(
         name='google',
         client_id=app.config.get('GOOGLE_CLIENT_ID'),
@@ -53,6 +74,7 @@ def create_app(config_class=Config):
         authorize_url='https://www.facebook.com/dialog/oauth',
         access_token_url='https://graph.facebook.com/oauth/access_token',
         api_base_url='https://graph.facebook.com/',
+<<<<<<< HEAD
         # 'userinfo_endpoint' diz à Authlib onde buscar os dados do perfil
         userinfo_endpoint='me?fields=id,name,email',
         client_kwargs={'scope': 'email public_profile'}
@@ -69,6 +91,17 @@ def create_app(config_class=Config):
     from .modules.client.routes import client_bp
     from .modules.restaurant.routes import restaurant_bp
     # from .modules.order.routes import order_bp (ainda não criámos)
+=======
+        userinfo_endpoint='me?fields=id,name,email',
+        client_kwargs={'scope': 'email public_profile'}
+    )
+
+    # 4. Regista os Blueprints (Módulos da Aplicação)
+    from .modules.auth.routes import auth_bp
+    from .modules.client.routes import client_bp
+    from .modules.restaurant.routes import restaurant_bp
+    # from .modules.order.routes import order_bp  # ainda não criado
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
 
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(client_bp, url_prefix='/perfil')
@@ -76,4 +109,8 @@ def create_app(config_class=Config):
     # app.register_blueprint(order_bp, url_prefix='/pedido')
 
     # 5. Retorna a App pronta
+<<<<<<< HEAD
     return app
+=======
+    return app
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)

@@ -8,6 +8,16 @@ de dentro do pacote 'src' e iniciar o servidor de desenvolvimento.
 """
 
 from src import create_app
+<<<<<<< HEAD
+=======
+import os
+
+# Cria a instância da aplicação
+app = create_app()
+
+# ✅ Define a URI do banco diretamente no app.config
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yummygo.db'
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
 from flask import request # <-- Verifique se request está importado
 from src.extensions import db 
 from src.models import Pedido 

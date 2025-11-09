@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -57,3 +58,76 @@
     </p>
   </body>
 </html>
+=======
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row justify-content-center my-5">
+  <div class="col-md-6 col-12 p-4 shadow rounded-3" style="background-color: var(--purple-bg);">
+
+    <h2 class="text-center mb-4" style="color: var(--purple-dark)">Login - YummyGo</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'success' if category=='success' else 'danger' }} text-center">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+
+      <div class="mb-3">
+        {{ form.login.label(class="form-label") }}
+        {{ form.login(class="form-control form-control-lg") }}
+        {% for error in form.login.errors %}
+          <small class="text-danger">[{{ error }}]</small>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control form-control-lg") }}
+        {% for error in form.password.errors %}
+          <small class="text-danger">[{{ error }}]</small>
+        {% endfor %}
+      </div>
+
+      <div class="form-check mb-3">
+        {{ form.remember_me(class="form-check-input") }}
+        {{ form.remember_me.label(class="form-check-label") }}
+      </div>
+
+      <div class="d-grid gap-2 mb-3">
+        {{ form.submit(class="btn btn-purple btn-lg") }}
+      </div>
+
+      <div class="text-center mb-2">
+        <a href="{{ url_for('auth.google_login') }}" class="btn btn-outline-danger me-2">
+          <i class="fab fa-google"></i> Entrar com Google
+        </a>
+        <a href="{{ url_for('auth.facebook_login') }}" class="btn btn-outline-primary">
+          <i class="fab fa-facebook-f"></i> Entrar com Facebook
+        </a>
+      </div>
+
+      <div class="text-center mb-3">
+        <a href="{{ url_for('auth.email_login') }}" class="btn btn-outline-secondary me-2">Entrar com código por e-mail</a>
+        <a href="{{ url_for('auth.phone_login') }}" class="btn btn-outline-secondary">Entrar com código por SMS</a>
+      </div>
+
+      <p class="text-center mt-3">
+        Não tem uma conta?
+        <a href="{{ url_for('auth.register') }}" style="color: var(--purple-light)">Crie uma aqui</a>.
+      </p>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)

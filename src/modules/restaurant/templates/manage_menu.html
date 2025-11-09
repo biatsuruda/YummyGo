@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -89,6 +90,101 @@
       <hr />
 
       {% if categorias %}
+=======
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Meu Cardápio</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-{{ category }}" style="margin: 10px 0; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<hr />
+
+<div style="display: flex; gap: 20px; align-items: flex-start;">
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main style="flex: 2;">
+    <h3>Categorias e Produtos Salvos</h3>
+
+    {% if not categorias %}
+      <p>Você ainda não tem categorias. Adicione uma ao lado.</p>
+    {% else %}
+      {% for categoria in categorias %}
+        <div style="border: 1px solid #ddd; border-radius: 6px; background-color: #fafafa; padding: 10px; margin-bottom: 15px;">
+          <h4 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span>{{ categoria.nome }}</span>
+            <form method="POST" action="{{ url_for('restaurant.delete_category', categoria_id=categoria.id) }}" style="display: inline;">
+              <input
+                type="submit"
+                value="Apagar Categoria"
+                onclick="return confirm('ATENÇÃO: Apagar esta categoria também apagará TODOS os produtos dentro dela. Tem certeza?')"
+              />
+            </form>
+          </h4>
+
+          {% if not categoria.produtos %}
+            <p style="color: #555;"><em>Nenhum produto nesta categoria.</em></p>
+          {% else %}
+            <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 5px;" cellpadding="6">
+              <thead style="background-color: #f4f4f4;">
+                <tr>
+                  <th>Produto</th>
+                  <th>Descrição</th>
+                  <th>Preço</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for produto in categoria.produtos %}
+                <tr>
+                  <td><strong>{{ produto.nome }}</strong></td>
+                  <td>{{ produto.descricao }}</td>
+                  <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
+                  <td>{{ "Disponível" if produto.disponivel else "Indisponível" }}</td>
+                  <td>
+                    <form method="POST" action="{{ url_for('restaurant.delete_product', produto_id=produto.id) }}" style="display: inline;">
+                      <input
+                        type="submit"
+                        value="Apagar"
+                        onclick="return confirm('Tem certeza que quer apagar este produto?')"
+                      />
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </main>
+
+  <!-- PAINEL LATERAL -->
+  <aside style="flex: 1; border: 1px solid #ddd; border-radius: 6px; background-color: #f4f4f4; padding: 15px;">
+    <h3>Adicionar Categoria</h3>
+    <form method="POST" action="{{ url_for('restaurant.manage_menu') }}">
+      {{ category_form.hidden_tag() }}
+      <p>
+        {{ category_form.nome.label }}<br />
+        {{ category_form.nome(size=30) }}
+      </p>
+      <p>{{ category_form.submit_category() }}</p>
+    </form>
+
+    <hr style="margin: 20px 0;" />
+
+    {% if categorias %}
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
       <h3>Adicionar Produto</h3>
       <form method="POST" action="{{ url_for('restaurant.manage_menu') }}">
         {{ product_form.hidden_tag() }}
@@ -113,6 +209,7 @@
         </p>
         <p>{{ product_form.submit_product() }}</p>
       </form>
+<<<<<<< HEAD
       {% else %}
       <p>
         <em>Adicione uma categoria primeiro para poder adicionar produtos.</em>
@@ -121,3 +218,13 @@
     </aside>
   </body>
 </html>
+=======
+    {% else %}
+      <p><em>Adicione uma categoria primeiro para poder adicionar produtos.</em></p>
+    {% endif %}
+  </aside>
+
+</div>
+
+{% endblock %}
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)

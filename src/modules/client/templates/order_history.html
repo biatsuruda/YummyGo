@@ -12,6 +12,7 @@
     {% if not pedidos %}
     <p>Você ainda não tem pedidos registados.</p>
     <p><a href="{{ url_for('auth.home') }}">Faça o seu primeiro pedido!</a></p>
+<<<<<<< HEAD
     {% else %} {% for pedido in pedidos %}
     <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px">
       <h3>
@@ -38,6 +39,43 @@
       </ul>
     </div>
     {% endfor %} {% endif %}
+=======
+    {% else %}
+      {% for pedido in pedidos %}
+      <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 6px; background-color: #fafafa;">
+        <h3>
+          Pedido #{{ pedido.id }}
+          <span style="color: green; margin-left: 10px">Status: {{ pedido.status }}</span>
+        </h3>
+
+        <p>
+          <strong>Restaurante:</strong> {{ pedido.restaurante.nome_fantasia }}<br />
+          <strong>Total Pago:</strong> R$ {{ "%.2f"|format(pedido.preco_total) }}<br />
+          <strong>Data:</strong> {{ pedido.data_criacao.strftime('%d/%m/%Y às %H:%M') }}<br />
+          <strong>Entregar em:</strong> {{ pedido.endereco_entrega }}
+        </p>
+
+        <h4>Itens:</h4>
+        <ul>
+          {% for item in pedido.itens %}
+          <li>{{ item.quantidade }}x {{ item.produto.nome }}</li>
+          {% endfor %}
+        </ul>
+
+        <!-- Botão para apagar pedido -->
+        <form method="POST" action="{{ url_for('client.delete_order', pedido_id=pedido.id) }}">
+          {{ csrf_token() }}
+          <input
+            type="submit"
+            value="Apagar Pedido"
+            onclick="return confirm('Tem certeza que quer apagar este pedido?')"
+            style="margin-top: 10px; background-color: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;"
+          />
+        </form>
+      </div>
+      {% endfor %}
+    {% endif %}
+>>>>>>> 9cd02bf (Atualiza templates HTML, estiliza cardápio e corrige rotas de produtos e pedidos)
 
     <hr />
     <p><a href="{{ url_for('client.profile') }}">Voltar ao Meu Perfil</a></p>
